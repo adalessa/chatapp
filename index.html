@@ -2,10 +2,13 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form { background: #000; padding: 3px; bottom: 0; width: 100%; }
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
@@ -14,19 +17,30 @@
     </style>
   </head>
   <body>
-    <div id="chat" style="display:none;">
-      <ul id="messages"></ul>
-      <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
-      </form>
+
+    <div class="container">
+      <div class="row" id="messages" style="height:700px;background-color:#cdcdcd;display: none;overflow: scroll;">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="chat" style="display:none;">
+            <form action="">
+              <input id="m" autocomplete="off" /><button>Send</button>
+            </form>
+          </div>
+          <div id="login">
+            <input id="user" type="text"></input>
+            <input type="button" value="enviar" onclick="userLogin();"></input>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div id="login">
-      <input id="user" type="text"></input>
-      <input type="button" value="enviar" onclick="userLogin();"></input>
-    </div>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
     <script>
       function userLogin(){
           var user = $('#user').val();
@@ -35,7 +49,9 @@
       }
       function abrirSocket(user){
           $('#chat').show();
+          $('#messages').show();
           $('#login').hide();
+          var divMessage = document.getElementById('messages');
           var user = $('#user').val();
           var socket = io();
           $('form').submit(function(){
@@ -44,9 +60,12 @@
             return false;
           });
           socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
+            $('#messages').append($('<div class="col-md-12">').text(msg));
+            divMessage.scrollTop = divMessage.scrollHeight;
+            //$("#messages").animate({ scrollTop: $('#messages').height()}, 1000);
           });
       }
     </script>
   </body>
+
 </html>
