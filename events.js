@@ -4,8 +4,14 @@ module.exports = function(io){
     socket.on('disconnect', function(){
       console.log('user disconnected');
     });
-  	socket.on('chat message', function(msg, user){
-      io.emit('chat message', user + ':' + msg);
+    socket.on('register', function (username) {
+      if (username != "Ariel" ) {
+        socket.emit('messages', 'You are not allow');
+      } else {
+        socket.on('chat message', function(msg){
+          io.emit('chat message', username + ': ' + msg);
+        });
+      }
     });
   });
 }
