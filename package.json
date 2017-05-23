@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "boostrap": "^1.0.0",
     "bootstrap": "^3.3.7",
     "express": "^4.15.2",
     "jade": "^1.11.0",
