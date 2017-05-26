@@ -1,0 +1,11 @@
+extends layout
+block content
+  div#messages.row
+    div.col-md-8
+      div#chat
+    div#connected.col-md-4
+  div.row
+    div.col-md-12
+      form(action='')
+        input#m(autocomplete='off')
+        button send

@@ -1,0 +1,11 @@
+extends layout
+block content
+  div.row
+    div.col-md-12
+      div#login
+        input#user
+        input(type='button', value='enviar', onclick='userLogin();')
+      div#logg
+        form(action='/chat', method='POST')
+          input
+          button Login

@@ -12,4 +12,9 @@ module.exports = function(app) {
 	app.get('/', function(req, res){
 		res.render('index');
 	});
+
+	// POST method route
+	app.post('/', function (req, res) {
+		console.log("se hizo un post");
+	});
 }
