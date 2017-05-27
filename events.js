@@ -1,6 +1,7 @@
 var fs = require('fs'),
     path = require('path'),
-    filePath = path.join(__dirname, './data/users.json');
+    filePath = path.join(__dirname, './data/users.json'),
+    userList = [];
 
 module.exports = function(io){
   io.on('connection', function(socket){
@@ -8,22 +9,25 @@ module.exports = function(io){
     console.log('a user connected');
 
     socket.on('disconnect', function(){
-      userList = removeUser(_id);
-      io.emit('disconnected', _id);
+      //userList = removeUser(_id);
+      io.emit('userDisconnected', _id);
       console.log('user disconnected');
     });
 
     socket.on('register', function (username) {
-      /* registrando usuario en users.json */
-      addUser(username);
-      io.emit('connected', username, _id);
+
+
       //getUsers(function (err, content) {
       //    console.log(content)
       //})
 
-      if (username == "Ariel" ) {
+      if (username == "" ) {
         socket.emit('messages', 'You are not allow');
       } else {
+        socket.emit('usersListConnected', userList);
+        userList.push({id:_id,user:username});
+        socket.broadcast.emit('userConnected', _id, username);
+
         socket.on('chat message', function(msg){
           io.emit('chat message', username + ': ' + msg);
         });

@@ -22,12 +22,15 @@ function abrirSocket(user){
 
     socket.emit('register', user);
 
-    socket.on('connected', function(user, _id){
-      debugger;
-          $('#connected').append($('<div id="'+_id+'" class="col-md-12">').text(user));
+    socket.on('userConnected', function(id, user){
+          $('#connected').append($('<div id="'+id+'" class="col-md-12">').text(user));
     });
-    socket.on('disconnected', function(_id){
-      debugger
+    socket.on('usersListConnected', function(userList){
+      for(var i=0; i<userList.length;i++){
+        $('#connected').append($('<div id="'+userList[i].id+'" class="col-md-12">').text(userList[i].user));
+      }
+    });
+    socket.on('userDisconnected', function(_id){
         $('#'+_id).remove();
     });
     /*socket.on('connected', function(userList){
